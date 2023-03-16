@@ -2,11 +2,43 @@ import { listPokemon, pokemon } from "./interface/interface"
 
 export default function fetchPokemon(): void {
     const urlPokemon: string = "https://pokeapi.co/api/v2/pokemon/",
-        $pokeBox: HTMLElement = <HTMLElement> document.getElementById("poke-box"),
-        fragment: Node = document.createDocumentFragment();
-        
+    $pokeBox: HTMLElement = <HTMLElement> document.getElementById("poke-box"),
+    fragment: Node = document.createDocumentFragment();
 
-    fetch(urlPokemon)
+    let listPokemon: listPokemon;
+
+    const nextButton = document.querySelector('#bNextList')!;
+    const previousButton = document.querySelector('#bPreviousList')!;
+
+    loadPokemonList(urlPokemon, $pokeBox, fragment)
+  .then((res: listPokemon) => {
+    listPokemon = res;
+  });
+
+    previousButton.addEventListener('click', () => {
+        console.log("gola")
+        if (listPokemon.previous !== null) {
+          loadPokemonList(listPokemon.previous, $pokeBox, fragment)
+          .then((res: listPokemon) => {
+            listPokemon = res;
+          });
+        }
+      });
+      
+      nextButton.addEventListener('click', () => {
+        if (listPokemon.next !== null) {
+          loadPokemonList(listPokemon.next, $pokeBox, fragment)
+          .then((res: listPokemon) => {
+            listPokemon = res;
+          });
+        }
+      });
+
+}
+
+function loadPokemonList(url: string, $pokeBox: HTMLElement, fragment: Node): Promise<listPokemon>  {
+    
+   return fetch(url)
     .then(res => res.json())
     .then((res: listPokemon) => {
         res.results.forEach((pokemon) => {
@@ -33,9 +65,8 @@ export default function fetchPokemon(): void {
 
         });
 
-        console.log(res);
-        $pokeBox.appendChild(fragment);
+        $pokeBox.appendChild(fragment); 
 
+        return res;
     });
-
 }
