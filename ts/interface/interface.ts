@@ -13,5 +13,16 @@ export interface pokemon {
     name: string,
     sprites: {
         front_default: string
+    },
+    types: {
+        0: {
+
+            type: {
+
+                name: string
+
+            }
+
+        }
     }
 }

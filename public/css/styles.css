@@ -20,16 +20,20 @@ html, body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
+  }
 
-.pokeFigure {
+.pokeArticle {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #ddcccc;
+    margin: 10px;
+    border-radius: 10px;
+    border: 2px solid black;
   }
   
-  .pokeFigure figcaption {
+  .pokeArticle figcaption {
     text-align: center;
   }
 
