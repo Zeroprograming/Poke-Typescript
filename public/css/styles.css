@@ -1,8 +1,13 @@
 body {
   font-family: 'Kanit', sans-serif;
+  background-image: url("/assets/img/Background.jpeg");
+  background-size: cover; /* para que la imagen ocupe todo el fondo */
+  background-position: center center; /* para que la imagen esté centrada */
+  background-repeat: no-repeat; /* para evitar que la imagen se repita */
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -15,38 +20,38 @@ html, body {
 }
 
 .container {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
 
 .pokeArticle {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #ddcccc;
-    margin: 10px;
-    border-radius: 10px;
-    border: 2px solid black;
-  }
-  
-  .pokeArticle figcaption {
-    text-align: center;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ddcccc;
+  margin: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
 
-  footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    bottom: 0;
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
-  }
-  
+.pokeArticle figcaption {
+  text-align: center;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  bottom: 0;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
 #nav {
   overflow: hidden;
   margin-top: 40px;
@@ -69,4 +74,122 @@ html, body {
   border: none;
 }
 
+.pokeButton {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
 
+/* Agrega estilos hover para .pokeButton */
+.pokeButton:hover {
+  background-color: transparent;
+  color: #333;
+  transform: scale(1.2);
+}
+
+.pokeButton.pushed {
+  transform: scale(1.1);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-out;
+}
+
+
+.popup {
+  background: #ffffff;
+  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.1);
+  text-align: center;
+  padding: 0 100px 60px;
+  color: #000000;
+  box-shadow: 0 2px 5px 2px #666;
+  visibility: hidden;
+}
+
+.flexBoxPokemon {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  margin: 5px 0px;
+}
+
+.statsContainer {
+  text-align: initial;
+  margin-left: -20%;
+}
+
+.popup ul {
+  text-align: left;
+  max-width: 400px;
+  padding-left: 1;
+}
+
+.popup ul li {
+  margin-bottom: 2px;
+}
+
+
+.open-popup {
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup hr {
+  width: 148%;
+  margin: 0;
+  position: relative;
+  left: -24%;
+  background-color: #ccc;
+}
+
+.imgPokemon {
+  margin-top: 20px;
+  margin-bottom: -5px;
+}
+
+.TittlePokemon {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  margin: 5px 0px;
+  width: 148%;
+  /* Ocupa todo el ancho disponible */
+  left: -24%;
+}
+
+.TittlePokemon .titleNamePokemon {
+  font-weight: normal;
+}
+
+.TittlePokemon button {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.TittlePokemon button,
+.TittlePokemon h2 {
+  margin: 0px 20px;
+}
+
+.closeBottom {
+  background-color: #333;
+  color: #fff;
+  padding: 5px 15px;
+  font-size: 20px;
+  margin: 15px;
+  bottom: 0;
+  right: 0; /* Agregar 'right: 0;' para posicionar el botón a la derecha */
+  position: absolute; 
+}

@@ -1,30 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+    <link rel="icon" href="/assets/img/pokeBall.png" type="image/x-icon">
     <title>PokeTypescript</title>
 </head>
+
 <body>
 
     <main>
-
-
         <img class="titleLogo" src="/assets/img/logo-pokegallery.png" alt="title logo">
 
         <div id="poke-box" class="container"></div>
-        
+
+        <div id="popup" class="popup">
+            <div class="TittlePokemon">
+                <h2 class="titleNamePokemon">Text</h2>
+                <button type="button" class="closePopup">X</button>
+            </div>
+
+            <hr>
+            <div class="flexBoxPokemon"> 
+                <div class="statsContainer"></div>
+                <img src="/assets/img/pokeBall.png" width="200" height="200" class="imgPokemon">
+            </div>
+
+            <hr>
+            <button type="button" class="closePopup closeBottom">close</button>
+        </div>
+
+
+
+
+
+        <!-- #NavRegion PreviousButton and NextButton -->
         <nav id="nav">
             <div class="buttonDiv">
-                <button id="bPreviousList"  class="buttonNextList buttons"><h1>Previous</h1></button>
+                <button id="bPreviousList" class="buttonNextList buttons">
+                    <h1>Previous</h1>
+                </button>
             </div>
             <div id="buttonNextList" class="buttonDiv">
-                <button id="bNextList" class="buttonPreviousList buttons" ><h1>Next</h1></button>
-            </div >
+                <button id="bNextList" class="buttonPreviousList buttons">
+                    <h1>Next</h1>
+                </button>
+            </div>
         </nav>
+        <!-- #endregion -->
 
     </main>
 
@@ -33,6 +60,7 @@
     </footer>
 
     <!-- My Script -->
-    <script src="/public/js/script.js" type="module"></script>
+    <script src="/public/js/script.js" type="module" async></script>
 </body>
+
 </html>

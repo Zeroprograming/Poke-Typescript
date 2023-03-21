@@ -1,25 +1,46 @@
 export default function fetchPokemon() {
     const urlPokemon = "https://pokeapi.co/api/v2/pokemon/", $pokeBox = document.getElementById("poke-box"), fragment = document.createDocumentFragment();
     let listPokemon;
-    const nextButton = document.querySelector('#bNextList');
-    const previousButton = document.querySelector('#bPreviousList');
+    let popup = document.getElementById("popup");
+    const closePopups = popup.querySelectorAll(".closePopup");
+    closePopups.forEach((closeButton) => {
+        closeButton.addEventListener("click", () => {
+            popup.classList.remove("open-popup");
+        });
+    });
+    const nextButton = document.querySelector("#bNextList");
+    const previousButton = document.querySelector("#bPreviousList");
+    function addClickListenerClose(object) {
+        object.addEventListener("click", () => {
+            popup === null || popup === void 0 ? void 0 : popup.classList.remove("open-popup");
+        });
+    }
     loadPokemonList(urlPokemon, $pokeBox, fragment)
         .then((res) => {
         listPokemon = res;
+        if (popup !== null) {
+            pokeButtonActions(popup, listPokemon);
+        }
     });
-    previousButton.addEventListener('click', () => {
+    previousButton.addEventListener("click", () => {
         if (listPokemon.previous !== null) {
             loadPokemonList(listPokemon.previous, $pokeBox, fragment)
                 .then((res) => {
                 listPokemon = res;
+                if (popup !== null) {
+                    pokeButtonActions(popup, listPokemon);
+                }
             });
         }
     });
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener("click", () => {
         if (listPokemon.next !== null) {
             loadPokemonList(listPokemon.next, $pokeBox, fragment)
                 .then((res) => {
                 listPokemon = res;
+                if (popup !== null) {
+                    pokeButtonActions(popup, listPokemon);
+                }
             });
         }
     });
@@ -29,26 +50,27 @@ function loadPokemonList(url, $pokeBox, fragment) {
         $pokeBox.removeChild($pokeBox.firstChild);
     }
     return fetch(url)
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((res) => {
         res.results.forEach((pokemon) => {
-            const $figure = document.createElement("figure"), $img = document.createElement("img"), $figcaption = document.createElement("figcaption"), $namePokemon = document.createTextNode(pokemon.name), $article = document.createElement("article");
+            const $buttonFigure = document.createElement("button"), $img = document.createElement("img"), $figcaption = document.createElement("figcaption"), $namePokemon = document.createTextNode(pokemon.name), $article = document.createElement("article");
             $img.setAttribute("alt", pokemon.name);
             $img.setAttribute("title", pokemon.name);
             fetch(pokemon.url)
-                .then(res => res.json())
+                .then((res) => res.json())
                 .then((res) => {
                 $img.setAttribute("src", res.sprites.front_default);
-                console.log(res.types[0].type.name);
-                setBgColorType($article, res.types[0].type.name);
+                setBgColorType($buttonFigure, res.types[0].type.name);
             });
             $figcaption.appendChild($namePokemon);
-            $figure.appendChild($img);
-            $figure.appendChild($figcaption);
-            $article.appendChild($figure);
+            $buttonFigure.appendChild($img);
+            $buttonFigure.appendChild($figcaption);
+            $buttonFigure.classList.add("pokeButton");
+            $article.appendChild($buttonFigure);
             $article.classList.add("pokeArticle");
             fragment.appendChild($article);
         });
+        // AGREGAR EL FRAGMENTO A LA CAJA DE POKEMON
         $pokeBox.appendChild(fragment);
         return res;
     });
@@ -106,6 +128,83 @@ function setBgColorType(element, type) {
         case "fairy":
             element.style.backgroundColor = "#FF33FF";
             break;
-        default: console.log("Error");
+        default:
+            console.log("Error");
     }
+}
+function pokeButtonActions(popup, listPokemon) {
+    const pokeButtons = document.querySelectorAll(".pokeButton");
+    pokeButtons.forEach((pokeButton) => {
+        pokeButton.addEventListener("click", () => {
+            var _a;
+            pokeButton.classList.add("pushed");
+            const nameText = (_a = pokeButton.querySelector("figcaption")) === null || _a === void 0 ? void 0 : _a.textContent;
+            listPokemon.results.forEach(element => {
+                if (element.name === nameText) {
+                    const urlPokemon = element.url;
+                    fetch(urlPokemon)
+                        .then((res) => res.json())
+                        .then((pokemon) => {
+                        const $imgPokemon = popup.querySelector(".imgPokemon");
+                        const $titlePokemon = popup.querySelector(".titleNamePokemon");
+                        const statsContainer = popup.querySelector(".statsContainer");
+                        const pokemonList = document.createElement("ul");
+                        const liId = document.createElement("li");
+                        liId.textContent = "ID: " + pokemon.id;
+                        pokemonList.appendChild(liId);
+                        const liName = document.createElement("li");
+                        liName.textContent = "Name: " + pokemon.name;
+                        pokemonList.appendChild(liName);
+                        const liBase_experience = document.createElement("li");
+                        liBase_experience.textContent = "Base Experience: " + pokemon.base_experience;
+                        pokemonList.appendChild(liName);
+                        // abilities
+                        const ultitle = document.createElement("li");
+                        ultitle.textContent = "abilities: ";
+                        const ulAbilities = document.createElement("ul");
+                        ultitle.appendChild(ulAbilities);
+                        pokemon.abilities.forEach((res) => {
+                            const li = document.createElement("li");
+                            li.textContent = res.ability.name;
+                            ulAbilities.appendChild(li);
+                        });
+                        pokemonList.appendChild(ultitle);
+                        // type Pokemon
+                        const liTypePokemon = document.createElement("li");
+                        liTypePokemon.textContent = "Type: ";
+                        const ulTypes = document.createElement("ul");
+                        liTypePokemon.appendChild(ulTypes);
+                        pokemon.types.forEach((res) => {
+                            const liTypes = document.createElement("li");
+                            liTypes.textContent = res.type.name;
+                            ulTypes.appendChild(liTypes);
+                        });
+                        pokemonList.appendChild(liTypePokemon);
+                        // stats pokemon
+                        const liStatsPokemon = document.createElement("li");
+                        liStatsPokemon.textContent = "Stats: ";
+                        const ulStats = document.createElement("ul");
+                        liStatsPokemon.appendChild(ulStats);
+                        pokemon.stats.forEach((res) => {
+                            const liStats = document.createElement("li");
+                            liStats.textContent = res.stat.name.replace("-", " ") + ": " + res.base_stat;
+                            ulStats.appendChild(liStats);
+                        });
+                        pokemonList.appendChild(liStatsPokemon);
+                        const existingList = statsContainer.querySelector("ul");
+                        if (existingList) {
+                            existingList.remove();
+                        }
+                        statsContainer.appendChild(pokemonList);
+                        $titlePokemon.textContent = pokemon.name;
+                        $imgPokemon.setAttribute("src", pokemon.sprites.front_default);
+                    });
+                }
+            });
+            popup.classList.add("open-popup");
+            setTimeout(() => {
+                pokeButton.classList.remove("pushed");
+            }, 300);
+        });
+    });
 }
